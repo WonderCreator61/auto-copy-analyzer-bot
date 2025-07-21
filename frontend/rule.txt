@@ -1,0 +1,51 @@
+I am going to create a frontend project with react vite, with simple & beautiful UI framework/library.
+
+In the first page, I am going to show the table, which fetches data from GET API http://157.90.213.174:3000/get_query_targets.
+
+Draw a beautiful page.
+
+The result is array of this kinda object.
+{
+"_id": "687b57e7a55985627df720f7",
+"wallet": "<a href='https://gmgn.ai/sol/address/Am7BgjZsVdp92gaNE1ZqxRvLoMyZD1fVXYdT88aF3KWg' target='_blank'>Am7BgjZsVdp92gaNE1ZqxRvLoMyZD1fVXYdT88aF3KWg</a>",
+"total_profit": 277.92,
+"avg_pnl": 8.98,
+"max_pnl": 18.19,
+"token_count": 5,
+"win_loss": 4,
+"good_buy_count": 4,
+"avg_log_pnl": 2.232471293418226,
+"win_rate": "0.800000000000000000011",
+"total_avg_pnl": 13.12,
+"avg_first_sol_buy": 4.59,
+"avg_sol_buy": 4.59,
+"avg_sol_sell": 60.17,
+"balance": 8.23,
+"went_2x_count": 0,
+"went_3x_count": 0,
+"went_5x_count": 0,
+"went_10x_count": 0,
+"token_mig": 4,
+"tx_mig": 4,
+"black_token_count": 0,
+"hold_lt_2mins_percent": 0.2,
+"below_30k_buy_percent": 0.8,
+"avg_hold_time": "12m 54s",
+"wallet_address": "Am7BgjZsVdp92gaNE1ZqxRvLoMyZD1fVXYdT88aF3KWg",
+"sol_balance": 8.230263056,
+"win_count": 4,
+"suggested_limits": {},
+"danger_metrics": {
+    "low_went_2x_count": {
+        "value": 10,
+        "description": "Low went 2x count"
+    },
+    "total_value": 10
+}
+}
+
+On the table, don't show columns for suggested_limits & danger_metrics, and the last column should be action.
+And in it, there should be two icon buttons, which is for showing Configurations, another button is for adding the config.
+
+For now, when I click Show Config Button, open a modal, which shows suggested_limits, and danger_metrics.
+For Add Config button, do nothing.
