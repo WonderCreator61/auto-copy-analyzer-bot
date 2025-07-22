@@ -356,17 +356,19 @@ ${setSettingAsString(setting)}`,
   writeFile("good_targets", STORE.GOOD_TARGETS);
 }
 
-export const simulateTargetWallets = async () => {
+export const simulateTargetWallets = async (wallets: string[] = []) => {
   const apiVersion = 1;
-  const targets = (await readFile("targets")); // [{ wallet: 'ANH6zePnj2K4DdTj7x5xSimD3jafTTmTFQcNvdaDmzxH' }] //
+  if (wallets.length === 0) {
+    const targets = (await readFile("targets")); // [{ wallet: 'ANH6zePnj2K4DdTj7x5xSimD3jafTTmTFQcNvdaDmzxH' }] //
+    wallets = targets.map((target: any) => target.wallet);
+  }
 
   STORE.GOOD_TARGETS = [];
   if (STORE.SIMULATING) return;
   STORE.SIMULATING = true;
 
-  for (const target of targets) {
-    console.log('Analyzing wallet: ', target.wallet)
-    const wallet = target.wallet;
+  for (const wallet of wallets) {
+    console.log('Analyzing wallet: ', wallet)
     const walletInfo = await getWalletInfo(wallet);
     let isBad = false;
 

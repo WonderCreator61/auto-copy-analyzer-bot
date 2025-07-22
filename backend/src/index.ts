@@ -59,6 +59,15 @@ app.post("/simulate", async (req, res) => {
     }
 });
 
+app.post("/simulateFromImport", async (req, res) => {
+    try {
+        simulateTargetWallets(req.body.walletAddresses);
+        res.json({ message: "Simulation triggered successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 app.post("/addConfig", addNewCopyHandler);
 
 app.listen(PORT, () => {
