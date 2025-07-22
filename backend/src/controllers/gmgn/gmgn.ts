@@ -350,7 +350,7 @@ ${walletInfo.tags.join(" ")} | ${walletInfo.winrate.toFixed(2)} | ${
 First Interaction
 Follow Sell
 Buy Only Once
-All Platforms
+Pump & Bonk
 ${setCustomSettingAsString(custom_settings)}`,
   };
   STORE.GOOD_TARGETS.push(result);
