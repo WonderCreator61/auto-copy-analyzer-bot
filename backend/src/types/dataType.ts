@@ -306,6 +306,20 @@ export type TTokenInformation = {
     avgHoldingTime: string;
   };
   
+  export type TSimulationResponse = {
+    total_count: number;
+    total_pnl: number;
+    max_limit_pnl: number;
+    max_filtered_pnl: number;
+    max_filtered_pnl_count: number;
+    max_limit_multiples: number[];
+    max_limit_percents: number[];
+    min_mc: number;
+    max_mc: number;
+    min_token_age: number;
+    max_token_age: number;
+    win_rate: number;
+  };
   export type TFilters = {
     min_mc: number | null;
     max_mc: number | null;

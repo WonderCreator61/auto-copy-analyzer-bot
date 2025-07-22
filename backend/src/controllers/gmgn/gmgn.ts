@@ -13,10 +13,10 @@ import {
 import { readFile, writeFile } from "../../utils/file";
 import { v4 as uuidv4 } from "uuid";
 import { sleep } from "../../utils/helper";
-import { TSetting, TToken, TTokenInformation, TTradeH, TWalletInfo } from "../../types/dataType";
+import { TSetting, TSimulationResponse, TToken, TTokenInformation, TTradeH, TWalletInfo } from "../../types/dataType";
 import { getTokenInformation, getWalletInfo } from "./api";
 import { checkWallet } from "./utility";
-import { setSettingAsString } from "../../utils/format";
+import { setCustomSettingAsString, setSettingAsString } from "../../utils/format";
 
 
 export function isBadWallet(walletInfo: TWalletInfo) {
@@ -301,15 +301,17 @@ export async function addGoodTargetWallet(
     lastActiveTime: number;
     lastActiveToken: string;
     timezones: number[];
+    custom_settings: TSimulationResponse;
   },
   walletInfo: TWalletInfo | null
 ) {
-  const { reason, setting, lastActiveTime, lastActiveToken, timezones } =
+  const { reason, setting, lastActiveTime, lastActiveToken, timezones, custom_settings } =
     settings;
+  console.log(custom_settings)
   const result = {
     address: wallet,
     strategy: reason.join("\n"),
-    description: `profit | pnl | rate | tx \n ${setting.totalProfit} | ${setting.totalPNL} | ${setting.winRate} | ${setting.tx} \n ${setting.realTotalProfit} | ${setting.totalRealPNL} | ${setting.realWinRate} | ${setting.realTx} \n =========================
+    description: `profit | pnl | rate | tx \n ${setting.totalProfit} | ${setting.totalPNL} | ${setting.winRate} | ${setting.tx} \n ${setting.realTotalProfit} | ${setting.totalRealPNL} | ${setting.realWinRate} | ${setting.realTx} \n ${(custom_settings.max_limit_pnl - custom_settings.max_filtered_pnl_count).toFixed(2)} | ${(custom_settings.max_limit_pnl / custom_settings.max_filtered_pnl_count).toFixed(2)} | ${custom_settings.win_rate.toFixed(2)} | ${custom_settings.max_filtered_pnl_count} \n =========================
 time: ${setting.avgHoldingTime}
 lastActiveTime: ${new Date(lastActiveTime * 1000).toLocaleString("en-US", {
       timeZone: "Asia/Tokyo",
@@ -349,7 +351,7 @@ First Interaction
 Follow Sell
 Buy Only Once
 All Platforms
-${setSettingAsString(setting)}`,
+${setCustomSettingAsString(custom_settings)}`,
   };
   STORE.GOOD_TARGETS.push(result);
 
@@ -385,7 +387,7 @@ export const simulateTargetWallets = async (wallets: string[] = []) => {
     }
 
 
-    const settings = await checkWallet(tokens);
+    const settings = await checkWallet(wallet, tokens);
     if (!settings.setting) continue;
     const notApprovedKeyCount = Object.keys(settings.approved).length;
 

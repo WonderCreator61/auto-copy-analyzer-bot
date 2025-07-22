@@ -1,4 +1,4 @@
-import { TFilters, TSetting, TToken } from "../../types/dataType";
+import { TFilters, TSetting, TSimulationResponse, TToken } from "../../types/dataType";
 import { INVEST_AMOUNT, JITO_TIP, STORE } from "../../utils/constants";
 import { readFile, writeFile } from "../../utils/file";
 import { sleep } from "../../utils/helper";
@@ -300,7 +300,7 @@ export function findBestSettings(tokens: Array<TToken>): TSetting {
   };
 }
 
-export async function checkWallet(tokens: Array<TToken>) {
+export async function checkWallet(wallet: string, tokens: Array<TToken>) {
   let reason: Array<string> = [];
   let approved = {};
   const timezones: Array<number> = [];
@@ -463,5 +463,22 @@ export async function checkWallet(tokens: Array<TToken>) {
     timezones,
     lastActiveTime,
     lastActiveToken,
+    custom_settings: await simulateTokens(wallet),
   };
+}
+
+async function simulateTokens(walletAddress: string): Promise<TSimulationResponse> {
+  try {
+      const response = await fetch(`http://65.109.88.220:9002/tokens/simulate/${walletAddress}`);
+      
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data: TSimulationResponse = await response.json();
+      return data;
+  } catch (error) {
+      console.error('Error simulating tokens:', error);
+      throw error;
+  }
 }
